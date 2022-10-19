@@ -1,8 +1,8 @@
 const board = {
-    squareWidth: 10,
-    squareHeight: 10,
-    widthUnits: 80,
-    heightUnits: 80,
+    squareWidth: 8,
+    squareHeight: 8,
+    widthUnits: 100,
+    heightUnits: 100,
 
     squareColor: 'rgb(208, 236, 253)',
     cellColor: 'rgb(194, 44, 22)',
@@ -232,17 +232,17 @@ const board = {
                 //     } has ${this.countNeighbours(idX, idY)} neighbours`
                 // );
                 //
-                console.log(
-                    `rules for cell [${idY}][${idX}]:\t state: ${
-                        this.state[idY][idX]
-                    },\t neighbs: ${this.countNeighbours(
-                        idX,
-                        idY
-                    )},\t next: ${this.rules.check(
-                        this.state[idY][idX],
-                        this.countNeighbours(idX, idY)
-                    )}`
-                );
+                // console.log(
+                //     `rules for cell [${idY}][${idX}]:\t state: ${
+                //         this.state[idY][idX]
+                //     },\t neighbs: ${this.countNeighbours(
+                //         idX,
+                //         idY
+                //     )},\t next: ${this.rules.check(
+                //         this.state[idY][idX],
+                //         this.countNeighbours(idX, idY)
+                //     )}`
+                // );
 
                 this.stateNext[idY][idX] = this.rules.check(
                     this.state[idY][idX],
@@ -312,3 +312,24 @@ domCanvas.addEventListener('click', (evt) => {
 
 domButtonNext = document.querySelector('#next');
 domButtonNext.addEventListener('click', () => board.nextStep());
+
+domButtonStart = document.querySelector('#start');
+domButtonStart.addEventListener('click', theGame);
+
+// start the game
+function theGame() {
+    // let first make 10 steps (or moves);
+    let counter = 100;
+    let theGameGoes = true;
+    requestAnimationFrame(function oneMove() {
+        board.nextStep();
+        // if (counter++ < 10) requestAnimationFrame(oneMove);
+        if (theGameGoes && counter) {
+            counter--;
+            requestAnimationFrame(oneMove);
+            // domShowCoords.innerText = counter;
+            // domCanvasDiv.insertAdjacentElement('afterEnd', domShowCoords);
+        }
+    });
+    return 0;
+}
